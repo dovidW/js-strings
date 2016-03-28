@@ -1,0 +1,15 @@
+{
+  "name": "js-strings",
+  "version": "1.0.0",
+  "description": "",
+  "main": "js-strings.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha -gc --slow 250"
+  },
+  "author": {
+    "name": "magicode"
+  },
+  "devDependencies": {
+    "mocha": "^2.3.4"
+  }
+}
