@@ -2,6 +2,7 @@
 exports.jsStrings = jsStrings;
 
 var spaceChar = {' ':true,'\n':true,'\r':true};
+var newLineChar = {'\n':true,'\r':true};
 var tokenChar = {};
 "(:[-*&^%-+/!~|=;".split('').forEach( function(c){
     tokenChar[c] = true;
@@ -95,7 +96,7 @@ function jsStrings(str){
             return;
         }
             
-        if(ss.q == char){
+        if(ss.q == char || newLineChar[char]){
             ss.end = i;
             listStrings.push(ss);
             ss = false;
@@ -108,6 +109,7 @@ function jsStrings(str){
 
     function onEscape(char,i,str){
         if(ss.escapeObj){
+            
             ss.escapeObj.c += char;
             if(ss.escapeObj.c.length >= ss.escapeObj.l ){
                 status = onString;
@@ -119,6 +121,10 @@ function jsStrings(str){
             ss.escapeObj.l = ( char == "x" ? 2 : 4 );
             ss.escapeObj.t = char;
             ss.escapeObj.c = '';
+        }else if( newLineChar[char] ){
+            if(!("\r" == char && "\n" == str[i + 1])){
+                status = onString;
+            }
         }else{
             ss.content += escapeMap[char] || char;
             status = onString;
